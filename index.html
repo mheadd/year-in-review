@@ -51,7 +51,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#">About</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Select a city <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Select a municipality <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#" class="city" id="grand-rapids">Grand Rapids, MI</a></li>
                 <li><a href="#" class="city" id="charlotte-county">Charlotte County, FL</a></li>
@@ -70,7 +70,7 @@
       <div class="jumbotron">
         <div class="container">
           <h1>2014 Year in Review</h1>
-          <p class="lead">Select a city to view its 2014 Building Permit Year in Review</p>
+          <p class="lead">Select a municipality to view its 2014 Building Permit Year in Review</p>
         </div>
       </div>
 
@@ -121,6 +121,7 @@
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.9/c3.min.js"></script>
+    <script src="cities.js"></script>
     <script>
         $(document).ready(function() {
 
@@ -140,10 +141,11 @@
             $("#monthly").empty();
 
             // Get the city selected.
-            var city = this.id;
+            var city = cities[this.id];
 
+            // Render charts.
             getYearlyTotals(city);
-            setTimeout(getMonthlyTotals,3000);
+            getMonthlyTotals(city);
 
             e.preventDefault();
 
@@ -168,8 +170,8 @@
 
         // API base URL and SQL strings.
         var urlBase = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=';
-        var sqlYearlyString = 'SELECT SUM(CASE WHEN SUBSTRING("DATE OPENED",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("DATE OPENED",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "94701a46-ee4a-4f42-8bea-b80ce10041a8" WHERE "RECORD MODULE" = \'Building\'';
-        var sqlMonthlyString = 'SELECT SUBSTRING("DATE OPENED",6,2) AS "MONTH", SUM(CASE WHEN SUBSTRING("DATE OPENED",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("DATE OPENED",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "94701a46-ee4a-4f42-8bea-b80ce10041a8" WHERE "RECORD MODULE" = \'Building\' GROUP BY "MONTH" ORDER BY "MONTH" ASC';
+        var sqlYearlyString = 'SELECT SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "%resource_id%"';
+        var sqlMonthlyString = 'SELECT SUBSTRING("%date_field%",6,2) AS "MONTH", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "%resource_id%" GROUP BY "MONTH" ORDER BY "MONTH" ASC';
 
         var leadText = "In 2014, %name% issued %amount%% more building permits than in 2013.";
 
@@ -184,14 +186,20 @@
           });
         }
 
+        function formatSQLString(cityObject, sql) {
+          return sql
+        }
+
         // Get Yearly totals.
         function getYearlyTotals(city) {
 
-          requestJSON(sqlYearlyString, function(json) {
+          var sql = sqlYearlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
+
+          requestJSON(sql, function(json) {
             var _2013 = json.result.records[0]["2013_PERMITS"];
             var _2014 = json.result.records[0]["2014_PERMITS"];
             var change = Math.round(((_2014 - _2013)/_2013)*100);
-            $("#lead").text(leadText.replace('%amount%', change).replace('%name%', city));
+            $("#lead").text(leadText.replace('%amount%', change).replace('%name%', city.name));
             $("#year").show();
             var chart = c3.generate({
               bindto: "#annual",
@@ -215,11 +223,12 @@
         }
 
         // Get monthly totals.
-        function getMonthlyTotals() {
+        function getMonthlyTotals(city) {
 
           $("#month").show();
+          var sql = sqlMonthlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
 
-          requestJSON(sqlMonthlyString, function(json) {
+          requestJSON(sql, function(json) {
             var _2013 = ['2013'];
             var _2014 = ['2014'];
             for(var i=0; i<json.result.records.length; i++) {
@@ -243,12 +252,10 @@
                       ratio: 0.5
                   }
               }
-          });
+            });
 
-          });
+          })
         }
-
-
     </script>
 
   </body>

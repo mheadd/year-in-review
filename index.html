@@ -58,7 +58,7 @@
                 <li><a href="#" class="city" id="framingham">Framingham, MA</a></li>
                 <li><a href="#" class="city" id="el-paso">El Paso, TX</a></li>
                 <li><a href="#" class="city" id="monterey-county">Monterey County, CA</a></li>
-                <li><a href="#" class="city" id="salt-lake-city">Salt Lake City, UT</a></li>
+                <li><a href="#" class="city" id="omaha">Omaha, NE</a></li>
               </ul>
             </li>
 
@@ -101,7 +101,7 @@
             <p>Monterey County, CA</p>
           </div>
           <div class="col-md-4">
-            <img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_salt_lake_city_ut.png"/>
+            <img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_omaha_ne.png"/>
             <p>Salt Lake City, UT</p>
           </div>
         </div>
@@ -129,7 +129,7 @@
         var sqlYearlyString = 'SELECT SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "%resource_id%"';
         var sqlMonthlyString = 'SELECT SUBSTRING("%date_field%",6,2) AS "MONTH", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "%resource_id%" GROUP BY "MONTH" ORDER BY "MONTH" ASC';
 
-        var leadText = "In 2014, %name% issued %amount%% more building permits than in 2013.";
+        var leadText = "In 2014, %name% handled %amount%% more building permits than in 2013.";
 
         $(document).ready(function() {
 
@@ -154,40 +154,7 @@
 
             // Render charts.
             getYearlyTotals(city);
-            setTimeout(function() {
-
-              $("#month").show();
-
-              sqlMonthly = sqlMonthlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
-
-              requestJSON(sqlMonthly, function(json) {
-                var _2013 = ['2013'];
-                var _2014 = ['2014'];
-                for(var i=0; i<json.result.records.length; i++) {
-                  _2013.push(json.result.records[i]["2013_PERMITS"]);
-                  _2014.push(json.result.records[i]["2014_PERMITS"]);
-                }
-                var chart = c3.generate({
-                bindto: "#monthly",
-                  data: {
-                      columns: [_2013, _2014],
-                      labels: true
-                  },
-                  axis: {
-                            x: {
-                                type: 'category',
-                                categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Septembr', 'October', 'November', 'December']
-                            }
-                        },
-                  bar: {
-                      width: {
-                          ratio: 0.5
-                      }
-                  }
-                });
-
-              })
-            }, 3000);
+            getMonthlyTotals(city);
 
             e.preventDefault();
 
@@ -257,40 +224,39 @@
         }
 
         // Get monthly totals.
-        // function getMonthlyTotals(city) {
+        function getMonthlyTotals(city) {
 
-        //   $("#month").show();
+          sqlMonthly = sqlMonthlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
 
-        //   sqlMonthly = sqlMonthlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
+          requestJSON(sqlMonthly, function(json) {
+            var _2013 = ['2013'];
+            var _2014 = ['2014'];
+            for(var i=0; i<json.result.records.length; i++) {
+              _2013.push(json.result.records[i]["2013_PERMITS"]);
+              _2014.push(json.result.records[i]["2014_PERMITS"]);
+            }
+            $("#month").show();
+            var chart = c3.generate({
+            bindto: "#monthly",
+              data: {
+                  columns: [_2013, _2014],
+                  labels: true
+              },
+              axis: {
+                        x: {
+                            type: 'category',
+                            categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Septembr', 'October', 'November', 'December']
+                        }
+                    },
+              bar: {
+                  width: {
+                      ratio: 0.5
+                  }
+              }
+            });
 
-        //   requestJSON(sqlMonthly, function(json) {
-        //     var _2013 = ['2013'];
-        //     var _2014 = ['2014'];
-        //     for(var i=0; i<json.result.records.length; i++) {
-        //       _2013.push(json.result.records[i]["2013_PERMITS"]);
-        //       _2014.push(json.result.records[i]["2014_PERMITS"]);
-        //     }
-        //     var chart = c3.generate({
-        //     bindto: "#monthly",
-        //       data: {
-        //           columns: [_2013, _2014],
-        //           labels: true
-        //       },
-        //       axis: {
-        //                 x: {
-        //                     type: 'category',
-        //                     categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Septembr', 'October', 'November', 'December']
-        //                 }
-        //             },
-        //       bar: {
-        //           width: {
-        //               ratio: 0.5
-        //           }
-        //       }
-        //     });
-
-        //   })
-        // }
+          })
+        }
     </script>
 
   </body>

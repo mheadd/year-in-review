@@ -151,12 +151,42 @@
             // Get the city selected.
             var city = cities[this.id];
 
-            sqlYearlyString = sqlYearlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
-            sqlMonthlyString = sqlMonthlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
-
             // Render charts.
             getYearlyTotals(city);
-            setTimeout(getMonthlyTotals, 3000);
+            setTimeout(function(city) {
+
+              $("#month").show();
+
+              sqlMonthly = sqlMonthlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
+
+              requestJSON(sqlMonthly, function(json) {
+                var _2013 = ['2013'];
+                var _2014 = ['2014'];
+                for(var i=0; i<json.result.records.length; i++) {
+                  _2013.push(json.result.records[i]["2013_PERMITS"]);
+                  _2014.push(json.result.records[i]["2014_PERMITS"]);
+                }
+                var chart = c3.generate({
+                bindto: "#monthly",
+                  data: {
+                      columns: [_2013, _2014],
+                      labels: true
+                  },
+                  axis: {
+                            x: {
+                                type: 'category',
+                                categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Septembr', 'October', 'November', 'December']
+                            }
+                        },
+                  bar: {
+                      width: {
+                          ratio: 0.5
+                      }
+                  }
+                });
+
+              })
+            }, 3000);
 
             e.preventDefault();
 
@@ -194,41 +224,45 @@
         }
 
         // Get Yearly totals.
-        function getYearlyTotals(city) {
+        // function getYearlyTotals(city) {
 
-          requestJSON(sqlYearlyString, function(json) {
-            var _2013 = json.result.records[0]["2013_PERMITS"];
-            var _2014 = json.result.records[0]["2014_PERMITS"];
-            var change = Math.round(((_2014 - _2013)/_2013)*100);
-            $("#lead").text(leadText.replace('%amount%', change).replace('%name%', city.name));
-            $("#year").show();
-            var chart = c3.generate({
-              bindto: "#annual",
-                data: {
-                    columns: [
-                        ['2013', _2013],
-                        ['2014', _2014]
-                    ],
-                    type: 'bar',
-                    labels: true
-                },
-                bar: {
-                    width: {
-                        ratio: 0.5 
-                    }
-                }
-            });
+        //   var sqlYearly = sqlYearlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
+
+        //   requestJSON(sqlYearly, function(json) {
+        //     var _2013 = json.result.records[0]["2013_PERMITS"];
+        //     var _2014 = json.result.records[0]["2014_PERMITS"];
+        //     var change = Math.round(((_2014 - _2013)/_2013)*100);
+        //     $("#lead").text(leadText.replace('%amount%', change).replace('%name%', city.name));
+        //     $("#year").show();
+        //     var chart = c3.generate({
+        //       bindto: "#annual",
+        //         data: {
+        //             columns: [
+        //                 ['2013', _2013],
+        //                 ['2014', _2014]
+        //             ],
+        //             type: 'bar',
+        //             labels: true
+        //         },
+        //         bar: {
+        //             width: {
+        //                 ratio: 0.5 
+        //             }
+        //         }
+        //     });
             
-          });
+        //   });
 
-        }
+        // }
 
         // Get monthly totals.
-        function getMonthlyTotals() {
+        function getMonthlyTotals(city) {
 
           $("#month").show();
 
-          requestJSON(sqlMonthlyString, function(json) {
+          sqlMonthly = sqlMonthlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
+
+          requestJSON(sqlMonthly, function(json) {
             var _2013 = ['2013'];
             var _2014 = ['2014'];
             for(var i=0; i<json.result.records.length; i++) {

@@ -4,11 +4,18 @@ $(document).ready(function() {
   $("h3, .footer, #working").hide();
 
   // Get the city name from the URL path and show charts. 
-  if(window.location.pathname.length > 1) {
-    var plug = window.location.pathname.replace('/', '');
-    var city = cities[plug];
+  // if(window.location.pathname.length > 1) {
+  //   var plug = window.location.pathname.replace('/', '');
+  //   var city = cities[plug];
+  //   showCharts(city);
+  // }
+
+  $(".city").click(function(e){
+    // Get the city selected.
+    var city = cities[this.id];
     showCharts(city);
-  }
+    e.preventDefault();
+  });
 
 });
 

@@ -9,25 +9,21 @@
 
     <title>2014 year in Review: Building Permits</title>
 
-    <!-- Bootstrap core CSS -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.9/c3.min.css" rel="stylesheet">
 
     <style type="text/css">
-
       body {
         margin-top: 80px;
+        text-align: center;
       }
 
-      h2 {
+      h3 {
         margin-bottom: 5px;
       }
       img {
         padding: 10px;
-      }
-      .col-md-4, .jumbotron {
-        text-align: center;
       }
     </style>
 
@@ -45,7 +41,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Year in Review</a>
+          <a class="navbar-brand" href="/">Year in Review</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -53,12 +49,12 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Select a municipality <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#" class="city" id="grand-rapids">Grand Rapids, MI</a></li>
-                <li><a href="#" class="city" id="charlotte-county">Charlotte County, FL</a></li>
-                <li><a href="#" class="city" id="framingham">Framingham, MA</a></li>
-                <li><a href="#" class="city" id="el-paso">El Paso, TX</a></li>
-                <li><a href="#" class="city" id="monterey-county">Monterey County, CA</a></li>
-                <li><a href="#" class="city" id="omaha">Omaha, NE</a></li>
+                <li><a href="/grand-rapids" class="city" id="grand-rapids">Grand Rapids, MI</a></li>
+                <li><a href="/charlotte-county" class="city" id="charlotte-county">Charlotte County, FL</a></li>
+                <li><a href="/framingham" class="city" id="framingham">Framingham, MA</a></li>
+                <li><a href="/chatham" class="city" id="chatham">Chatham, MA</a></li>
+                <li><a href="/tigard" class="city" id="tigard">Tigard, OR</a></li>
+                <li><a href="/omaha" class="city" id="omaha">Omaha, NE</a></li>
               </ul>
             </li>
 
@@ -69,8 +65,9 @@
 
       <div class="jumbotron">
         <div class="container">
-          <h1>2014 Year in Review</h1>
-          <p class="lead">Select a municipality to view its 2014 Building Permit Year in Review</p>
+          <h1>2014 Year in Review</h2>
+          <h2>Select a municipality to view its 2014 Building Permit Year in Review.</h3>
+          <p class="lead">Powered by Accela's <a href="http://CivicData.com">CivicData</a> platform.</p>
         </div>
       </div>
 
@@ -79,42 +76,51 @@
       <div id="logos">
         <div class="row">
           <div class="col-md-4">
-            <img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_grand_rapids.gif"/>
+            <a href="/grand-rapids"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_grand_rapids.gif"/></a>
             <p>Grand Rapids, MI</p>
           </div>
           <div class="col-md-4">
-            <img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_charlotte_county_fl.png"/>
+            <a href="/charlotte-county"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_charlotte_county_fl.png"/></a>
             <p>Charlotte County, FL</p>
           </div>
           <div class="col-md-4">
-            <img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_framingham_ma.jpg"/>
+            <a href="/framingham"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_framingham_ma.jpg"/></a>
             <p>Framingham, MA</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
-            <img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_el_paso_tx.png"/>
-            <p>El Paso, TX</p>
+            <a href="/chatham"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_chatham_ma.png"/></a>
+            <p>Town of Chatham, MA</p>
           </div>
           <div class="col-md-4">
-            <img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_monterey_county_ca.png"/>
-            <p>Monterey County, CA</p>
+            <a href="/tigard"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_tigard_or.png"/></a>
+            <p>Tigard, OR</p>
           </div>
           <div class="col-md-4">
-            <img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_omaha_ne.png"/>
+            <a href="/omaha"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_omaha_ne.png"/></a>
             <p>Omaha, NE</p>
           </div>
         </div>
       </div>
-      <h3 id="lead"></h3>
+      <h2 id="summary"></h2>
+      <h1 id="working">Fetching data...</h1>
       <div id="top">
-        <h2 id="year">Year over Year Summary</h2>
+        <h3 id="year">Year over Year Summary</h3>
         <div id="annual"></div>
       </div>
       <div id="top">
-        <h2 id="month">Month by Month Summary</h2>
+        <h3 id="month">Month by Month Summary</h3>
         <div id="monthly"></div>
       </div>
+
+      <footer class="footer">
+        <div class="container">
+          <hr/>
+          <p class="text-muted">Powered by <a href="http://civicdata.com">CivicData</p>
+        </div>
+      </footer>
+
     </div> <!-- /container -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -122,142 +128,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.9/c3.min.js"></script>
     <script src="cities.js"></script>
-    <script>
-
-        // API base URL and SQL strings.
-        var urlBase = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=';
-        var sqlYearlyString = 'SELECT SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "%resource_id%"';
-        var sqlMonthlyString = 'SELECT SUBSTRING("%date_field%",6,2) AS "MONTH", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "%resource_id%" GROUP BY "MONTH" ORDER BY "MONTH" ASC';
-
-        var leadText = "In 2014, %name% handled %amount%% more building permits than in 2013.";
-
-        $(document).ready(function() {
-
-          // Hide chart headers on page load.
-          $("h2").hide();
-
-          // Selection handler.
-          $(".city").click(function(e){
-
-            // Hide the jumbotron & logos.
-            $(".jumbotron").hide();
-            $("#logos").hide();
-
-            // Clear any existing charts.
-            $("h2").hide();
-            $("#lead").text("");
-            $("#annual").empty();
-            $("#monthly").empty();
-
-            // Get the city selected.
-            var city = cities[this.id];
-
-            // Render charts.
-            getYearlyTotals(city);
-            getMonthlyTotals(city);
-
-            e.preventDefault();
-
-          });
-
-          $(".navbar-brand").click(function() {
-
-            // Clear any existing charts.
-            $("h2").hide();
-            $("#annual").empty();
-            $("#monthly").empty();
-            $("#lead").empty();
-
-            // Hide the jumbotron & logos.
-            $(".jumbotron").show();
-            $("#logos").show();
-
-          });
-
-        });
-
-        // Make API call.
-        function requestJSON(sql, callback) {
-          $.ajax({
-            url: urlBase + sql,
-            asynch: false,
-            complete: function(xhr) {
-              callback.call(null, xhr.responseJSON);
-            }
-          });
-        }
-
-        function formatSQLString(cityObject, sql) {
-          return sql
-        }
-
-        // Get Yearly totals.
-        function getYearlyTotals(city) {
-
-          var sqlYearly = sqlYearlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
-
-          requestJSON(sqlYearly, function(json) {
-            var _2013 = json.result.records[0]["2013_PERMITS"];
-            var _2014 = json.result.records[0]["2014_PERMITS"];
-            var change = Math.round(((_2014 - _2013)/_2013)*100);
-            $("#lead").text(leadText.replace('%amount%', change).replace('%name%', city.name));
-            $("#year").show();
-            var chart = c3.generate({
-              bindto: "#annual",
-                data: {
-                    columns: [
-                        ['2013', _2013],
-                        ['2014', _2014]
-                    ],
-                    type: 'bar',
-                    labels: true
-                },
-                bar: {
-                    width: {
-                        ratio: 0.5 
-                    }
-                }
-            });
-            
-          });
-
-        }
-
-        // Get monthly totals.
-        function getMonthlyTotals(city) {
-
-          sqlMonthly = sqlMonthlyString.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
-
-          requestJSON(sqlMonthly, function(json) {
-            var _2013 = ['2013'];
-            var _2014 = ['2014'];
-            for(var i=0; i<json.result.records.length; i++) {
-              _2013.push(json.result.records[i]["2013_PERMITS"]);
-              _2014.push(json.result.records[i]["2014_PERMITS"]);
-            }
-            $("#month").show();
-            var chart = c3.generate({
-            bindto: "#monthly",
-              data: {
-                  columns: [_2013, _2014],
-                  labels: true
-              },
-              axis: {
-                        x: {
-                            type: 'category',
-                            categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Septembr', 'October', 'November', 'December']
-                        }
-                    },
-              bar: {
-                  width: {
-                      ratio: 0.5
-                  }
-              }
-            });
-
-          })
-        }
-    </script>
+    <script src="app.js"></script>
 
   </body>
 </html>

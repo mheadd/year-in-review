@@ -8,6 +8,8 @@ Some datasets used in this example may contain test data.
 
 All summary charts show numbers based on the date when a permit is opened, except for Grand Rapids, MI and Framingham, MA which show numbers based on when a permit is issued.
 
+Read more on this project [here](http://devblog.accela.com/2015/01/27/the-power-of-permit-data/).
+
 ## Built with
 
 * [Boostrap](http://getbootstrap.com/): Makes building great looking websites easy.

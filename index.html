@@ -18,15 +18,15 @@
         margin-top: 80px;
         text-align: center;
       }
-
       h2 {
         margin-bottom: 15px;
       }
       img {
         padding: 10px;
       }
-      .col-md-6 {
+      .message {
         padding: 10px;
+        margin-bottom: 5px;
       }
     </style>
 
@@ -74,7 +74,10 @@
 
 
     <div class="container">
-      <div id="logos">
+        <p class="message">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      <div class="logos">
         <div class="row">
           <div class="col-md-3">
             <a href="#" class="city" id="tampa"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_tampa.jpeg"/></a>
@@ -97,18 +100,18 @@
       <h2 id="summary"></h2>
       <h1 id="working">Fetching data...</h1>
       <div id="top">
-        <p class="lead" id="year">Permits Issued Year over Year</p>
+          <p class="lead" id="year">Permits Issued Year over Year</p>
         <div id="annual"></div>
       </div>
       <div>
-        <p class="lead" id="permittype">Year over Year Summary by Permit Type</p>
+        <p class="lead" id="permittype">2015 Summary by Permit Type</p>
         <div id="type"></div>
       </div>
 
       <footer class="footer">
         <div class="container">
           <hr/>
-          <p class="text-muted">Powered by the <a href="http://permitdata.org">BLDS data standard</p>
+          <p class="text-muted">Powered by <a href="http://permitdata.org">BLDS</a> and <a href="http://civicdata.com">CivicData</a>
         </div>
       </footer>
 

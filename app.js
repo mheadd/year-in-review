@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   // Hide chart headers & footer on page load.
-  $(".lead, .footer, #working").hide();
+  $(".lead, #working").hide();
 
   // Get the city name from the URL path and show charts. 
   // if(window.location.pathname.length > 1) {
@@ -31,8 +31,7 @@ var summaryText = 'In 2015, name handled amount% more building permits than in 2
 function showCharts(city) {
 
   // Hide the jumbotron & logos.
-  $(".jumbotron").hide();
-   $("#logos").hide();
+  $(".jumbotron, .logos, .message").hide();
 
   // Clear any existing charts.
   $("h3, .footer").hide();

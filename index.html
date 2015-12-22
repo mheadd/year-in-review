@@ -7,7 +7,7 @@
     <meta name="description" content="Year in review for permits">
     <meta name="author" content="Mark Headd">
 
-    <title>2014 year in Review: Building Permits</title>
+    <title>2015 Year in Review: Building Permits</title>
 
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet">
@@ -19,10 +19,13 @@
         text-align: center;
       }
 
-      h3 {
-        margin-bottom: 5px;
+      h2 {
+        margin-bottom: 15px;
       }
       img {
+        padding: 10px;
+      }
+      .col-md-6 {
         padding: 10px;
       }
     </style>
@@ -49,12 +52,10 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Select a municipality <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#" class="city" id="grand-rapids">Grand Rapids, MI</a></li>
-                <li><a href="#" class="city" id="charlotte-county">Charlotte County, FL</a></li>
-                <li><a href="#" class="city" id="framingham">Framingham, MA</a></li>
-                <li><a href="#" class="city" id="chatham">Chatham, MA</a></li>
-                <li><a href="#" class="city" id="tigard">Tigard, OR</a></li>
-                <li><a href="#" class="city" id="omaha">Omaha, NE</a></li>
+                <li><a href="#" class="city" id="tampa">Tampa, FL</a></li>
+                <li><a href="#" class="city" id="deschutes">Deschutes County, OR</a></li>
+                <li><a href="#" class="city" id="bernalillo">Bernalillo County, NM</a></li>
+                <li><a href="#" class="city" id="alameda">City of Alameda, CA</a></li>
               </ul>
             </li>
 
@@ -65,8 +66,8 @@
 
       <div class="jumbotron">
         <div class="container">
-          <h1>2014 Year in Review</h2>
-          <h2>Select a municipality to view its 2014 Building Permit Year in Review.</h3>
+          <h1>2015 Year in Review</h2>
+          <h2>Select a municipality to view its 2015 Building Permit Year in Review.</h3>
           <p class="lead">Powered by Accela's <a href="http://CivicData.com">CivicData</a> platform.</p>
         </div>
       </div>
@@ -75,49 +76,39 @@
     <div class="container">
       <div id="logos">
         <div class="row">
-          <div class="col-md-4">
-            <a href="#" class="city" id="grand-rapids"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_grand_rapids.gif"/></a>
-            <p>Grand Rapids, MI</p>
+          <div class="col-md-3">
+            <a href="#" class="city" id="tampa"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_tampa.jpeg"/></a>
+            <p>Tampa, FL</p>
           </div>
-          <div class="col-md-4">
-            <a href="#" class="city" id="charlotte-county"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_charlotte_county_fl.png"/></a>
-            <p>Charlotte County, FL</p>
+          <div class="col-md-3">
+            <a href="#" class="city" id="deschutes"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_deschutes_county.png"/></a>
+            <p>Deschutes County, OR</p>
           </div>
-          <div class="col-md-4">
-            <a href="#" class="city" id="framingham"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_framingham_ma.jpg"/></a>
-            <p>Framingham, MA</p>
+          <div class="col-md-3">
+            <a href="#" class="city" id="bernalillo"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_bernalillo_co_nm.png"/></a>
+            <p>Bernalillo County, NM</p>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <a href="#" class="city" id="chatham"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_chatham_ma.png"/></a>
-            <p>Town of Chatham, MA</p>
-          </div>
-          <div class="col-md-4">
-            <a href="#" class="city" id="tigard"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_tigard_or.png"/></a>
-            <p>Tigard, OR</p>
-          </div>
-          <div class="col-md-4">
-            <a href="#" class="city" id="omaha"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_omaha_ne.png"/></a>
-            <p>Omaha, NE</p>
+          <div class="col-md-3">
+            <a href="#" class="city" id="alameda"><img src="https://raw.githubusercontent.com/Accela-Inc/civicdata-logos/master/logo_alameda_ca.png"/></a>
+            <p>City of Alameda, CA</p>
           </div>
         </div>
       </div>
       <h2 id="summary"></h2>
       <h1 id="working">Fetching data...</h1>
       <div id="top">
-        <h3 id="year">Year over Year Summary</h3>
+        <p class="lead" id="year">Permits Issued Year over Year</p>
         <div id="annual"></div>
       </div>
-      <div id="top">
-        <h3 id="month">Month by Month Summary</h3>
-        <div id="monthly"></div>
+      <div>
+        <p class="lead" id="permittype">Year over Year Summary by Permit Type</p>
+        <div id="type"></div>
       </div>
 
       <footer class="footer">
         <div class="container">
           <hr/>
-          <p class="text-muted">Powered by <a href="http://civicdata.com">CivicData</p>
+          <p class="text-muted">Powered by the <a href="http://permitdata.org">BLDS data standard</p>
         </div>
       </footer>
 

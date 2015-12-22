@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   // Hide chart headers & footer on page load.
-  $("h3, .footer, #working").hide();
+  $(".lead, .footer, #working").hide();
 
   // Get the city name from the URL path and show charts. 
   // if(window.location.pathname.length > 1) {
@@ -21,11 +21,11 @@ $(document).ready(function() {
 
 // API base URL and SQL strings.
 var urlBase = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=';
-var sqlYearlyString = 'SELECT SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "%resource_id%"';
-var sqlMonthlyString = 'SELECT SUBSTRING("%date_field%",6,2) AS "MONTH", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS", SUM(CASE WHEN SUBSTRING("%date_field%",1,4) = \'2013\' THEN 1 ELSE 0 END) AS "2013_PERMITS" FROM "%resource_id%" GROUP BY "MONTH" ORDER BY "MONTH" ASC';
+var sqlYearlyString = 'SELECT SUM(CASE WHEN SUBSTRING("IssuedDate",1,4) = \'2015\' THEN 1 ELSE 0 END) AS "2015_PERMITS", SUM(CASE WHEN SUBSTRING("IssuedDate",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS" FROM "%resource_id%"';
+var sqlYearlyTypeString = 'SELECT SUM(1) AS "Total", "PermitTypeMapped" FROM "%resource_id%" WHERE "PermitTypeMapped" <> \'\' GROUP BY "PermitTypeMapped"';
 
 // Summary text displayed with charts.
-var summaryText = 'In 2014, name handled amount% more building permits than in 2013.';
+var summaryText = 'In 2015, name handled amount% more building permits than in 2014.';
 
 // Method to display chrts.
 function showCharts(city) {
@@ -36,21 +36,21 @@ function showCharts(city) {
 
   // Clear any existing charts.
   $("h3, .footer").hide();
-  $("#annual, #monthly").empty();
+  $("#annual, #type").empty();
   $("#summary").text("");
 
   // Render yearly and monthly summaries.
   getYearlyTotals(city);
-  getMonthlyTotals(city);
+  getYearlyTotalsByType(city);
 }
 
 // Get Yearly summary.
 function getYearlyTotals(city) {
 
   requestJSON(formatSQLSting(sqlYearlyString, city), function(json) {
-    var _2013 = json.result.records[0]["2013_PERMITS"];
     var _2014 = json.result.records[0]["2014_PERMITS"];
-    var change = Math.round(((_2014 - _2013)/_2013)*100);
+    var _2015 = json.result.records[0]["2015_PERMITS"];
+    var change = Math.round(((_2015 - _2014)/_2014)*100);
     
     // Change the language in the summary text to reflect change in permits numbers.
     if(change < 0) {
@@ -67,15 +67,16 @@ function getYearlyTotals(city) {
       bindto: "#annual",
       data: {
         columns: [
-          ['2013', _2013],
-          ['2014', _2014]
+          ['2014', _2014],
+          ['2015', _2015]
         ],
         type: 'bar',
-        labels: true
-      },
-      bar: {
-        width: {
-          ratio: 0.5 
+        labels: true,
+        labels: {
+            format: {
+                2014: d3.format(','),
+                2015: d3.format(',')
+            }
         }
       }
     });
@@ -84,27 +85,20 @@ function getYearlyTotals(city) {
 }
 
 // Get monthly summary.
-function getMonthlyTotals(city) {
+function getYearlyTotalsByType(city) {
 
-  requestJSON(formatSQLSting(sqlMonthlyString, city), function(json) {
-    var _2013 = ['2013'];
-    var _2014 = ['2014'];
+  requestJSON(formatSQLSting(sqlYearlyTypeString, city), function(json) {
+    var values = [];
     for(var i=0; i<json.result.records.length; i++) {
-      _2013.push(json.result.records[i]["2013_PERMITS"]);
-      _2014.push(json.result.records[i]["2014_PERMITS"]);
+      values.push(new Array(json.result.records[i]["PermitTypeMapped"], parseInt(json.result.records[i]["Total"])));
     }
-    $("#month").show();
+    $("#permittype").show();
     makeCharts({
-      bindto: "#monthly",
+      bindto: "#type",
       data: {
-        columns: [_2013, _2014],
+        columns: values,
+        type: 'pie',
         labels: true
-      },
-      axis: {
-        x: {
-          type: 'category',
-          categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Septembr', 'October', 'November', 'December']
-        }
       }
     });
   });
@@ -115,6 +109,7 @@ function requestJSON(sql, callback) {
   $.ajax({
     url: urlBase + sql,
     beforeSend: function() {
+      $(".lead").hide();
       $("#working").show();
     },
     complete: function(xhr) {
@@ -132,5 +127,5 @@ function makeCharts(chart) {
 
 // Utility method to format SQL string for API call.
 function formatSQLSting(sql, city) {
-  return sql.replace(/%date_field%/g, city.date_field).replace('%resource_id%', city.resource_id);
+  return sql.replace('%resource_id%', city.resource_id);
 }

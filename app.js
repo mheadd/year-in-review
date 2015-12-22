@@ -22,7 +22,7 @@ $(document).ready(function() {
 // API base URL and SQL strings.
 var urlBase = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=';
 var sqlYearlyString = 'SELECT SUM(CASE WHEN SUBSTRING("IssuedDate",1,4) = \'2015\' THEN 1 ELSE 0 END) AS "2015_PERMITS", SUM(CASE WHEN SUBSTRING("IssuedDate",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS" FROM "%resource_id%"';
-var sqlYearlyTypeString = 'SELECT SUM(1) AS "Total", "PermitTypeMapped" FROM "%resource_id%" WHERE "PermitTypeMapped" <> \'\' GROUP BY "PermitTypeMapped"';
+var sqlYearlyTypeString = 'SELECT SUM(1) AS "Total", "PermitTypeMapped" FROM "%resource_id%" WHERE "PermitTypeMapped" <> \'\' AND SUBSTRING("IssuedDate",1,4) = \'2015\' GROUP BY "PermitTypeMapped"';
 
 // Summary text displayed with charts.
 var summaryText = 'In 2015, name handled amount% more building permits than in 2014.';

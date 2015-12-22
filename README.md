@@ -1,14 +1,6 @@
-# 2014 Building Permits Year In Review
+# 2015 Building Permits Year In Review
 
-A simple client-side app to compare building permits opened in 2014 v 2013 for select cities. All data comes from CivicData.com via the CKAN SQL Search API.
-
-## Notes on data
-
-Some datasets used in this example may contain test data.
-
-All summary charts show numbers based on the date when a permit is opened, except for Grand Rapids, MI and Framingham, MA which show numbers based on when a permit is issued.
-
-Read more on this project [here](http://devblog.accela.com/2015/01/27/the-power-of-permit-data/).
+A simple client-side app to compare building permits opened in 2015 v 2014 for select cities. All data is in the [BLDS format](http://permitdata.org) and comes from CivicData.com via the CKAN SQL Search API.
 
 ## Built with
 

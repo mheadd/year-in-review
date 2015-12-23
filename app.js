@@ -96,7 +96,7 @@ function getYearlyTotalsByType(city, year) {
     for(var i=0; i<json.result.records.length; i++) {
       values.push(new Array(json.result.records[i]["PermitTypeMapped"], parseInt(json.result.records[i]["Total"])));
     }
-    $("#permittype").show();
+    $(".lead").show();
     makeCharts({
       bindto: bind,
       data: {

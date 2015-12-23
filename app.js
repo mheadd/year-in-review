@@ -22,7 +22,8 @@ $(document).ready(function() {
 // API base URL and SQL strings.
 var urlBase = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=';
 var sqlYearlyString = 'SELECT SUM(CASE WHEN SUBSTRING("IssuedDate",1,4) = \'2015\' THEN 1 ELSE 0 END) AS "2015_PERMITS", SUM(CASE WHEN SUBSTRING("IssuedDate",1,4) = \'2014\' THEN 1 ELSE 0 END) AS "2014_PERMITS" FROM "%resource_id%"';
-var sqlYearlyTypeString = 'SELECT SUM(1) AS "Total", "PermitTypeMapped" FROM "%resource_id%" WHERE "PermitTypeMapped" <> \'\' AND SUBSTRING("IssuedDate",1,4) = \'2015\' GROUP BY "PermitTypeMapped"';
+var sqlYearlyType2015String = 'SELECT SUM(1) AS "Total", "PermitTypeMapped" FROM "%resource_id%" WHERE "PermitTypeMapped" <> \'\' AND SUBSTRING("IssuedDate",1,4) = \'2015\' GROUP BY "PermitTypeMapped"';
+var sqlYearlyType2014String = 'SELECT SUM(1) AS "Total", "PermitTypeMapped" FROM "%resource_id%" WHERE "PermitTypeMapped" <> \'\' AND SUBSTRING("IssuedDate",1,4) = \'2014\' GROUP BY "PermitTypeMapped"';
 
 // Summary text displayed with charts.
 var summaryText = 'In 2015, name handled amount% more building permits than in 2014.';
@@ -35,12 +36,13 @@ function showCharts(city) {
 
   // Clear any existing charts.
   $("h3, .footer").hide();
-  $("#annual, #type").empty();
+  $("#annual, #type2015, #type2014").empty();
   $("#summary").text("");
 
   // Render yearly and monthly summaries.
   getYearlyTotals(city);
-  getYearlyTotalsByType(city);
+  getYearlyTotalsByType(city, 2015);
+  getYearlyTotalsByType(city, 2014);
 }
 
 // Get Yearly summary.
@@ -84,16 +86,19 @@ function getYearlyTotals(city) {
 }
 
 // Get monthly summary.
-function getYearlyTotalsByType(city) {
+function getYearlyTotalsByType(city, year) {
 
-  requestJSON(formatSQLSting(sqlYearlyTypeString, city), function(json) {
+  var sql = year == 2015 ? sqlYearlyType2015String : sqlYearlyType2014String;
+  var bind = year == 2015 ? "#type2015" : "#type2014";
+
+  requestJSON(formatSQLSting(sql, city), function(json) {
     var values = [];
     for(var i=0; i<json.result.records.length; i++) {
       values.push(new Array(json.result.records[i]["PermitTypeMapped"], parseInt(json.result.records[i]["Total"])));
     }
     $("#permittype").show();
     makeCharts({
-      bindto: "#type",
+      bindto: bind,
       data: {
         columns: values,
         type: 'pie',

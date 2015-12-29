@@ -1,14 +1,14 @@
 $(document).ready(function() {
 
   // Hide chart headers & footer on page load.
-  $(".lead, #working").hide();
+  $(".lead, #working, #error").hide();
 
   // Get the city name from the URL path and show charts. 
-  // if(window.location.pathname.length > 1) {
-  //   var plug = window.location.pathname.replace('/', '');
-  //   var city = cities[plug];
-  //   showCharts(city);
-  // }
+  if(window.location.pathname.length > 1) {
+    var plug = window.location.pathname.replace('/', '');
+    var city = cities[plug];
+    showCharts(city);
+  }
 
   $(".city").click(function(e){
     // Get the city selected.
@@ -112,14 +112,21 @@ function getYearlyTotalsByType(city, year) {
 function requestJSON(sql, callback) {
   $.ajax({
     url: urlBase + sql,
+    dataType: 'json',
     beforeSend: function() {
       $(".lead").hide();
+      $("#error").hide();
       $("#working").show();
     },
-    complete: function(xhr) {
-       $("#working").hide();
-       $(".footer").show();
-      callback.call(null, xhr.responseJSON);
+    complete: function(xhr, status) {
+      $("#working").hide();
+      if(status != 'success') {
+        $("#error").show();
+      }
+      else {        
+        $(".footer").show();
+        callback.call(null, xhr.responseJSON);
+      }
     }
   });
 }

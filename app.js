@@ -4,11 +4,11 @@ $(document).ready(function() {
   $(".lead, #working, #error").hide();
 
   // Get the city name from the URL path and show charts. 
-  if(window.location.pathname.length > 1) {
-    var plug = window.location.pathname.replace('/', '');
-    var city = cities[plug];
-    showCharts(city);
-  }
+  // if(window.location.pathname.length > 1) {
+  //   var plug = window.location.pathname.replace('/', '');
+  //   var city = cities[plug];
+  //   showCharts(city);
+  // }
 
   $(".city").click(function(e){
     // Get the city selected.
